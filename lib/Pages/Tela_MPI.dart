@@ -9,12 +9,7 @@ class Tela_MPI extends StatefulWidget {
 
 class _Tela_MPIState extends State<Tela_MPI> {
 
-  @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
+   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
