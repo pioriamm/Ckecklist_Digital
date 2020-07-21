@@ -81,16 +81,19 @@ class _Widget_CardState extends State<Widget_Card> {
                 topLeft: Radius.circular(10),
               ),
               child: AnimatedContainer(
-                duration: Duration(seconds: 2),
+                duration: Duration(seconds: 1),
                 curve: Curves.easeInOutQuart,
                 height: 30,
                 width: 160,
-                color: widget.salvo == true
-                    ? Colors.green
-                    : Colors.amber,
+                color: widget.salvo == true ? Colors.green : Colors.amber,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(widget.nome.toUpperCase(), textAlign: TextAlign.center, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                  child: Text(
+                    widget.nome.toUpperCase(),
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                        color: Colors.white, fontWeight: FontWeight.bold),
+                  ),
                 ),
               ),
             ),
@@ -176,11 +179,11 @@ class _Widget_CardState extends State<Widget_Card> {
   Future<File> getImage(int peso, File file) async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
 
+
     setState(() {
       widget.diafoto = formatDate(DateTime.now(), [yyyy, mm, dd]);
       widget.Horafoto = formatDate(DateTime.now(), [HH, nn, ss, u]);
     });
-
     setState(
       () async {
         switch (peso) {
