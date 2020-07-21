@@ -1,9 +1,10 @@
 import 'dart:io';
+
+import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mpi/Services/Arquivos.dart';
 import 'package:mpi/Services/ftp.dart';
-import 'package:date_format/date_format.dart';
 
 class Widget_Card extends StatefulWidget {
   File file;
@@ -187,8 +188,16 @@ class _Widget_CardState extends State<Widget_Card> {
             {
               widget.file = File(pickedFile.path);
               widget.dianteira = widget.file;
-              fpt.enviarFtp(widget.dianteira, "${widget.diafoto}'T'${widget.Horafoto}-1-D.jpeg", widget.ip).then((value) {
-                fpt.enviarFtp(widget.dianteira, "${widget.diafoto}'T'${widget.Horafoto}-1-D_Thumb.jpeg",widget.ip);
+              fpt
+                  .enviarFtp(
+                      widget.dianteira,
+                      "${widget.diafoto}T${widget.Horafoto}-1-D.jpeg",
+                      widget.ip)
+                  .then((value) {
+                fpt.enviarFtp(
+                    widget.dianteira,
+                    "${widget.diafoto}T${widget.Horafoto}-1-D_Thumb.jpeg",
+                    widget.ip);
                 setState(() {
                   widget.salvo = value;
                 });
@@ -200,8 +209,12 @@ class _Widget_CardState extends State<Widget_Card> {
             {
               widget.file = File(pickedFile.path);
               widget.traseira = widget.file;
-              fpt.enviarFtp(widget.traseira, "${widget.diafoto}'T'${widget.Horafoto}-1-T.jpeg", widget.ip).then((value) {
-                fpt.enviarFtp(widget.traseira, "${widget.diafoto}'T'${widget.Horafoto}-1-T_Thumb.jpeg", widget.ip);
+              fpt.enviarFtp(widget.traseira,
+                  "${widget.diafoto}T${widget.Horafoto}-1-T.jpeg", widget.ip)
+                  .then((value) {
+                fpt.enviarFtp(widget.traseira,
+                    "${widget.diafoto}T${widget.Horafoto}-1-T_Thumb.jpeg",
+                    widget.ip);
                 setState(() {
                   widget.salvo = value;
                 });
@@ -212,8 +225,15 @@ class _Widget_CardState extends State<Widget_Card> {
             {
               widget.file = File(pickedFile.path);
               widget.panoramica = widget.file;
-              fpt.enviarFtp(widget.panoramica, "${widget.diafoto}'T'${widget.Horafoto}-1-L.jpeg", widget.ip).then((value) {
-                fpt.enviarFtp(widget.panoramica, "${widget.diafoto}'T'${widget.Horafoto}-1-L_Thumb.jpeg", widget.ip).then((value) => fpt.enviarFtp(widget.panoramica, "${widget.diafoto}'T'${widget.Horafoto}-1-CI.jpeg", widget.ip),);
+              fpt.enviarFtp(widget.panoramica,
+                  "${widget.diafoto}T${widget.Horafoto}-1-L.jpeg", widget.ip)
+                  .then((value) {
+                fpt.enviarFtp(widget.panoramica,
+                    "${widget.diafoto}T${widget.Horafoto}-1-L_Thumb.jpeg",
+                    widget.ip).then((value) =>
+                    fpt.enviarFtp(widget.panoramica,
+                        "${widget.diafoto}T${widget.Horafoto}-1-CI.jpeg",
+                        widget.ip),);
                 setState(() {
                   widget.salvo = value;
                 });
@@ -224,8 +244,12 @@ class _Widget_CardState extends State<Widget_Card> {
             {
               widget.file = File(pickedFile.path);
               widget.placa = widget.file;
-              fpt.enviarFtp(widget.placa, "${widget.diafoto}'T'${widget.Horafoto}-1-P.jpeg", widget.ip).then((value) {
-                fpt.enviarFtp(widget.placa, "${widget.diafoto}'T'${widget.Horafoto}-1-P_Thumb.jpeg", widget.ip);
+              fpt.enviarFtp(
+                  widget.placa, "${widget.diafoto}T${widget.Horafoto}-1-P.jpeg",
+                  widget.ip).then((value) {
+                fpt.enviarFtp(widget.placa,
+                    "${widget.diafoto}T${widget.Horafoto}-1-P_Thumb.jpeg",
+                    widget.ip);
                 setState(() {
                   widget.salvo = value;
                 });
