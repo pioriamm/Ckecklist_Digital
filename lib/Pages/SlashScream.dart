@@ -1,11 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:mpi/Pages/Tela_MPI.dart';
 import 'package:mpi/Services/Arquivos.dart';
 import 'package:mpi/services/ftp.dart';
 
-import 'Mpi_Sivapp.dart';
+import 'Home.dart';
 
 class SlashScream extends StatefulWidget {
   @override
@@ -33,7 +32,10 @@ class _SlashScreamState extends State<SlashScream> {
             () {
               valor = value;
               valor == true
-                  ? Future.delayed(Duration(seconds: 1), () { Navigator.of(context).pushReplacement(CupertinoPageRoute(builder: (context) => Mpi_Sivapp()));})
+                  ? Future.delayed(Duration(seconds: 1), () {
+                      Navigator.of(context).pushReplacement(
+                          CupertinoPageRoute(builder: (context) => Home()));
+                    })
                   : ShowDialog();
             },
           ),

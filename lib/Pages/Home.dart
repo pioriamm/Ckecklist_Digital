@@ -1,11 +1,11 @@
 import 'dart:ui';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:mpi/Pages/Manutencao.dart';
 import 'package:mpi/Pages/Tela_MPI.dart';
-import 'package:mpi/Pages/Tela_Siapp.dart';
 
-class Mpi_Sivapp extends StatelessWidget {
+class Home extends StatelessWidget {
   double size = 150;
 
   @override
@@ -40,7 +40,9 @@ class Mpi_Sivapp extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   InkWell(
-                    onTap: () => Navigator.of(context).push(CupertinoPageRoute(builder: (context) => Mpi())),
+                    onTap: () =>
+                        Navigator.of(context).push(CupertinoPageRoute(
+                            builder: (context) => Tela_MPI())),
                     child: ClipRRect(
                       borderRadius: BorderRadius.all(Radius.circular(5)),
                       child: Container(

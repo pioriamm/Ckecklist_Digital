@@ -2,13 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:mpi/Widget/card.dart';
 import 'package:mpi/Widget/widget_placa.dart';
 
-class Mpi extends StatefulWidget {
-
+class Tela_MPI extends StatefulWidget {
   @override
-  _MpiState createState() => _MpiState();
+  _Tela_MPIState createState() => _Tela_MPIState();
 }
 
-class _MpiState extends State<Mpi> {
+class _Tela_MPIState extends State<Tela_MPI> {
 
   @override
   void initState() {
@@ -18,7 +17,8 @@ class _MpiState extends State<Mpi> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(backgroundColor: Colors.red, title: Text("MPI 1"), centerTitle: true,),
+      appBar: AppBar(
+        backgroundColor: Colors.red, title: Text("MPI 1"), centerTitle: true,),
       body: ListView(
         children: [
           Column(
