@@ -23,13 +23,17 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  image_picker: ^0.6.7+2
-  ftpconnect: ^0.1.6
-  path_provider: ^1.6.11
-  firebase_ml_vision: ^0.9.4
-  image_cropper: ^1.2.3
   date_format: ^1.0.8
+  firebase_ml_vision: ^0.9.4
   flutter_image_compress: ^0.7.0
+  ftpconnect: ^0.1.6
+  http: ^0.12.2
+  image_cropper: ^1.2.3
+  image_picker: ^0.6.7+2
+  line_awesome_icons: ^1.0.4+2
+  path_provider: ^1.6.11
+  url_launcher: ^5.5.0
+
 
 
 

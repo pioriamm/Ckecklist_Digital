@@ -1,5 +1,5 @@
-import 'dart:convert';
 import 'dart:io';
+
 import 'package:path_provider/path_provider.dart';
 
 
@@ -17,6 +17,6 @@ import 'package:path_provider/path_provider.dart';
       final file = await caminhoArquivo();
       return file.readAsString();
     } catch (e){
-      return null;
-    }
+      return "nao existe";
+  }
   }

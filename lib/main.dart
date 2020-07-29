@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'Pages/SlashScream.dart';
 
 void main() {
@@ -9,10 +10,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner:  false,
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
+      title: 'Ckecklist Digital',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.red,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: SlashScream(),
