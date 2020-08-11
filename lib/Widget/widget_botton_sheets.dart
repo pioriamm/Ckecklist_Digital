@@ -14,33 +14,27 @@ class _widget_botton_sheetsState extends State<widget_botton_sheets> {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Column(
-        mainAxisSize: MainAxisSize.min,
+        mainAxisSize: MainAxisSize.max,
         children: <Widget>[
-          Column(
-            children: <Widget>[
-              GestureDetector(
-                onTap: () => Navigator.pop(context),
-                child: Container(
-                  height: 5,
-                  width: 50,
-                  decoration: BoxDecoration(
-                    color: Colors.black26,
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                ),
+          GestureDetector(
+            onTap: () => Navigator.pop(context),
+            child: Container(
+              height: 5,
+              width: 50,
+              decoration: BoxDecoration(
+                color: Colors.black26,
+                borderRadius: BorderRadius.circular(50),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10),
-                child: Text(
-                  "O que posso ajudar?",
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.red,
-                      fontWeight: FontWeight.bold),
-                  textAlign: TextAlign.center,
-                ),
-              ),
-            ],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10),
+            child: Text(
+              "O que posso ajudar?",
+              style: TextStyle(
+                  fontSize: 20, color: Colors.red, fontWeight: FontWeight.bold),
+              textAlign: TextAlign.center,
+            ),
           ),
           ListTile(
             onTap: () {

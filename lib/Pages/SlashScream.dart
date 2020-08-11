@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:mpi/Modelos/Constants.dart';
 import 'package:mpi/Modelos/Usuarios.dart';
 import 'package:mpi/Services/Api.dart';
 import 'package:mpi/Services/Arquivos.dart';
@@ -16,13 +17,14 @@ class SlashScream extends StatefulWidget {
 }
 
 class _SlashScreamState extends State<SlashScream> {
+  Usuarios usuarios = Usuarios();
   bool valor = false;
   bool aberto = true;
   bool clicou = false;
   String ip = 'null';
-  final controle = TextEditingController();
-  final login = TextEditingController();
-  final senha = TextEditingController();
+  final TextEditingController_ip = TextEditingController();
+  final TextEditingController_login = TextEditingController();
+  final TextEditingController_senha = TextEditingController();
 
   List<Usuarios> UsuariosBanco = List<Usuarios>();
   Usuarios logado = Usuarios();
@@ -31,10 +33,11 @@ class _SlashScreamState extends State<SlashScream> {
 
   @override
   void initState() {
+    _getTodosUsuario();
     lerdata().then((value) {
       setState(() {
         ip = value.trim();
-        controle.text = ip;
+        TextEditingController_ip.text = ip;
       });
     });
   }
@@ -58,35 +61,35 @@ class _SlashScreamState extends State<SlashScream> {
                 'imagens/assets/logo3.gif',
               ),
             ),
+            SizedBox(
+              height: 100,
+            ),
             ip == null
                 ? Dialog_PegarIp()
                 : InkWell(
-              onTap: () {
-                fpt.servidoron(ip: ip).then(
-                      (value) =>
-                      setState(() {
-                        valor = value;
-                        valor == true
-                            ? BottonSheet()
-                            : Dialog_PegarIp();
-                      }),
-                );
-              },
-              child: AnimatedContainer(
-                curve: Curves.easeInOutQuart,
-                duration: Duration(milliseconds: 700),
-                width: valor == true ? 0 : width - 100,
-                height: valor == true ? 0 : 50,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.white,
-                ),
-                child: Center(
-                    child: Text("Sevidor $ip",
-                        style:
-                        TextStyle(color: Colors.red, fontSize: 20))),
-              ),
-            ),
+                    onTap: () {
+                      fpt.servidoron(ip: ip).then(
+                            (value) => setState(() {
+                              valor = value;
+                              valor == true ? BottonSheet() : Dialog_PegarIp();
+                            }),
+                          );
+                    },
+                    child: AnimatedContainer(
+                      curve: Curves.easeInOutQuart,
+                      duration: Duration(milliseconds: 100),
+                      width: width - 100,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        color: Colors.white,
+                      ),
+                      child: Center(
+                          child: Text("Sevidor $ip",
+                              style:
+                                  TextStyle(color: Colors.red, fontSize: 20))),
+                    ),
+                  ),
           ],
         ),
       ),
@@ -107,7 +110,7 @@ class _SlashScreamState extends State<SlashScream> {
             width: 200,
             child: TextField(
               keyboardType: TextInputType.numberWithOptions(),
-              controller: controle,
+              controller: TextEditingController_ip,
               decoration: InputDecoration(
                 border: InputBorder.none,
                 hintText: 'Qual é o IP?',
@@ -115,12 +118,12 @@ class _SlashScreamState extends State<SlashScream> {
             ),
           ),
           shape:
-          RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           actions: [
             FlatButton(
                 onPressed: () {
-                  savedata(controle.text);
-                  ip = controle.text;
+                  savedata(TextEditingController_ip.text);
+                  ip = TextEditingController_ip.text;
                   initState();
                   Navigator.pop(context);
                 },
@@ -138,18 +141,34 @@ class _SlashScreamState extends State<SlashScream> {
           return AlertDialog(
             elevation: 5,
             content: Container(
-              height: 100,
+              height: 150,
               child: Column(children: <Widget>[
-                Icon(Icons.do_not_disturb, color: Colors.red, size: 40,),
-                RichText(text: TextSpan(children: [
-                  TextSpan(text: 'Não foi encontrado o Usuário ',
-                      style: TextStyle(color: Colors.black)),
-                  TextSpan(text: '${login.text.toUpperCase()}',
-                      style: TextStyle(fontSize: 20, color: Colors.red)),
-                  TextSpan(text: ' , no banco de dados.',
-                      style: TextStyle(color: Colors.black)),
-                ],),)
-              ]),),
+                Icon(
+                  Icons.do_not_disturb,
+                  color: Colors.red,
+                  size: 40,
+                ),
+                SizedBox(
+                  height: 60,
+                ),
+                RichText(
+                  text: TextSpan(
+                    children: [
+                      TextSpan(
+                          text: 'Não foi encontrado o Usuário ',
+                          style: TextStyle(color: Colors.black)),
+                      TextSpan(
+                          text:
+                              '${TextEditingController_login.text.toUpperCase()}',
+                          style: TextStyle(fontSize: 20, color: Colors.red)),
+                      TextSpan(
+                          text: ' , no banco de dados.',
+                          style: TextStyle(color: Colors.black)),
+                    ],
+                  ),
+                )
+              ]),
+            ),
           );
         });
   }
@@ -168,23 +187,25 @@ class _SlashScreamState extends State<SlashScream> {
   Botao_Login({Color fundobotao, Color letra}) {
     return InkWell(
       onTap: () {
-        _getTodosUsuario();
-        Usuarios u = Usuarios();
-
         for (var i in UsuariosBanco) {
-          if (i.login == login.text) {
-            u.login = i.login;
-            u.nome = i.nome;
-            u.email = i.email;
+          if (i.login == TextEditingController_login.text) {
+            setState(() {
+              usuarios.login = i.login;
+              usuarios.nome = i.nome;
+              usuarios.email = i.email;
+            });
           }
         }
-        if (u.login != null) {
+        if (usuarios.login != null) {
           setState(() {
-            login.clear();
+            TextEditingController_login.clear();
             clicou = false;
           });
-          Navigator.of(context).push(
-              MaterialPageRoute(builder: (Builder) => Home(u)));
+          PularPagina(
+              context: context,
+              pagina: Home(
+                usuario: usuarios,
+              ));
         } else {
           setState(() {
             clicou = true;
@@ -192,7 +213,6 @@ class _SlashScreamState extends State<SlashScream> {
           Dialog_ErrodeUsuario();
         }
       },
-
       child: Container(
         height: 50,
         width: 300,
@@ -200,8 +220,12 @@ class _SlashScreamState extends State<SlashScream> {
             borderRadius: BorderRadius.circular(20), color: fundobotao),
         child: ClipRRect(
           borderRadius: BorderRadius.all(Radius.circular(20)),
-          child: Center(child: Text(
-            "Entrar", style: TextStyle(fontSize: 20, color: letra),),),
+          child: Center(
+            child: Text(
+              "Entrar",
+              style: TextStyle(fontSize: 20, color: letra),
+            ),
+          ),
         ),
       ),
     );
@@ -226,7 +250,7 @@ class _SlashScreamState extends State<SlashScream> {
                   //mainAxisSize: MainAxisSize.min,
                   children: [
                     TextField(
-                      controller: login,
+                      controller: TextEditingController_login,
                       obscureText: false,
                       onTap: () {
                         setState(() {
@@ -238,7 +262,7 @@ class _SlashScreamState extends State<SlashScream> {
                       ),
                     ),
                     TextField(
-                      controller: senha,
+                      controller: TextEditingController_senha,
                       obscureText: true,
                       onTap: () {
                         setState(() {
@@ -261,5 +285,4 @@ class _SlashScreamState extends State<SlashScream> {
           );
         });
   }
-
 }

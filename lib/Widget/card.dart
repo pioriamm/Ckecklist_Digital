@@ -18,7 +18,7 @@ class Widget_Card extends StatefulWidget {
   bool salvo = false;
   String local;
   String nome;
-  String ip = null;
+
   String diafoto = 'null';
   String Horafoto = 'null';
   double tamanholetra = 9;
@@ -29,22 +29,10 @@ class Widget_Card extends StatefulWidget {
   _Widget_CardState createState() => _Widget_CardState();
 }
 
-
 class _Widget_CardState extends State<Widget_Card> {
   final picker = ImagePicker();
   Ftp fpt = Ftp();
-
-
-  @override
-  void initState() {
-    super.initState();
-    lerdata().then((value) {
-      setState(() {
-        widget.ip = value;
-      });
-    });
-
-  }
+  String ip = null;
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +42,7 @@ class _Widget_CardState extends State<Widget_Card> {
         children: [
           Container(
             margin: EdgeInsets.all(5),
-            height: 290,
+            height: 270,
             width: 160,
             decoration: BoxDecoration(
                 color: Colors.grey.withAlpha(70),
@@ -83,16 +71,19 @@ class _Widget_CardState extends State<Widget_Card> {
               child: AnimatedContainer(
                 duration: Duration(seconds: 1),
                 curve: Curves.easeInOutQuart,
-                height: 30,
+                height: 45,
                 width: 160,
-                color: widget.salvo == true ? Colors.green : Colors.amber,
+                color: widget.salvo == true ? Colors.green : Colors.red,
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    widget.nome.toUpperCase(),
-                    textAlign: TextAlign.center,
-                    style: TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.bold),
+                  child: Center(
+                    child: Text(
+                      widget.nome.toUpperCase(),
+                      overflow: TextOverflow.visible,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                          color: Colors.white, fontWeight: FontWeight.bold),
+                    ),
                   ),
                 ),
               ),
@@ -110,7 +101,7 @@ class _Widget_CardState extends State<Widget_Card> {
                 curve: Curves.easeInOutQuart,
                 height: 70,
                 width: 160,
-                color: widget.salvo == true ? Colors.green : Colors.amber,
+                color: widget.salvo == true ? Colors.green : Colors.red,
                 child: Row(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -124,23 +115,33 @@ class _Widget_CardState extends State<Widget_Card> {
                         children: [
                           Text(
                             'Local: ',
-                            style: TextStyle(fontSize: widget.tamanholetra, color: Colors.white),
+                            style: TextStyle(
+                                fontSize: widget.tamanholetra,
+                                color: Colors.white),
                           ),
                           Text(
                             'Data : ${widget.diafoto.toString()}',
-                            style: TextStyle(fontSize: widget.tamanholetra, color: Colors.white),
+                            style: TextStyle(
+                                fontSize: widget.tamanholetra,
+                                color: Colors.white),
                           ),
                           Text(
                             'Hora : ${widget.Horafoto.toString()}',
-                            style: TextStyle(fontSize: widget.tamanholetra, color: Colors.white),
+                            style: TextStyle(
+                                fontSize: widget.tamanholetra,
+                                color: Colors.white),
                           ),
                           Text(
                             'Denatan',
-                            style: TextStyle(fontSize: widget.tamanholetra, color: Colors.white),
+                            style: TextStyle(
+                                fontSize: widget.tamanholetra,
+                                color: Colors.white),
                           ),
                           Text(
                             'OIA:',
-                            style: TextStyle(fontSize: widget.tamanholetra, color: Colors.white),
+                            style: TextStyle(
+                                fontSize: widget.tamanholetra,
+                                color: Colors.white),
                           ),
                         ],
                       ),
@@ -179,87 +180,97 @@ class _Widget_CardState extends State<Widget_Card> {
   Future<File> getImage(int peso, File file) async {
     final pickedFile = await picker.getImage(source: ImageSource.camera);
 
-
     setState(() {
       widget.diafoto = formatDate(DateTime.now(), [yyyy, mm, dd]);
       widget.Horafoto = formatDate(DateTime.now(), [HH, nn, ss, u]);
     });
+
     setState(
       () async {
-        switch (peso) {
-          case 1:
-            {
-              widget.file = File(pickedFile.path);
-              widget.dianteira = widget.file;
-              fpt
-                  .enviarFtp(
+        lerdata().then((ip) {
+          switch (peso) {
+            case 1:
+              {
+                widget.file = File(pickedFile.path);
+                widget.dianteira = widget.file;
+                fpt
+                    .enviarFtp(widget.dianteira,
+                        "${widget.diafoto}T${widget.Horafoto}-1-D.jpeg", ip)
+                    .then((value) {
+                  fpt.enviarFtp(
                       widget.dianteira,
-                      "${widget.diafoto}T${widget.Horafoto}-1-D.jpeg",
-                      widget.ip)
-                  .then((value) {
-                fpt.enviarFtp(
-                    widget.dianteira,
-                    "${widget.diafoto}T${widget.Horafoto}-1-D_Thumb.jpeg",
-                    widget.ip);
-                setState(() {
-                  widget.salvo = value;
+                      "${widget.diafoto}T${widget.Horafoto}-1-D_Thumb.jpeg",
+                      ip);
+                  setState(() {
+                    widget.salvo = value;
+                  });
                 });
-              });
-            }
-            break;
+              }
+              break;
 
-          case 2:
-            {
-              widget.file = File(pickedFile.path);
-              widget.traseira = widget.file;
-              fpt.enviarFtp(widget.traseira,
-                  "${widget.diafoto}T${widget.Horafoto}-1-T.jpeg", widget.ip)
-                  .then((value) {
-                fpt.enviarFtp(widget.traseira,
-                    "${widget.diafoto}T${widget.Horafoto}-1-T_Thumb.jpeg",
-                    widget.ip);
-                setState(() {
-                  widget.salvo = value;
+            case 2:
+              {
+                widget.file = File(pickedFile.path);
+                widget.traseira = widget.file;
+                fpt
+                    .enviarFtp(widget.traseira,
+                        "${widget.diafoto}T${widget.Horafoto}-1-T.jpeg", ip)
+                    .then((value) {
+                  fpt.enviarFtp(
+                      widget.traseira,
+                      "${widget.diafoto}T${widget.Horafoto}-1-T_Thumb.jpeg",
+                      ip);
+                  setState(() {
+                    widget.salvo = value;
+                  });
                 });
-              });
-            }
-            break;
-          case 3:
-            {
-              widget.file = File(pickedFile.path);
-              widget.panoramica = widget.file;
-              fpt.enviarFtp(widget.panoramica,
-                  "${widget.diafoto}T${widget.Horafoto}-1-L.jpeg", widget.ip)
-                  .then((value) {
-                fpt.enviarFtp(widget.panoramica,
-                    "${widget.diafoto}T${widget.Horafoto}-1-L_Thumb.jpeg",
-                    widget.ip).then((value) =>
-                    fpt.enviarFtp(widget.panoramica,
-                        "${widget.diafoto}T${widget.Horafoto}-1-CI.jpeg",
-                        widget.ip),);
-                setState(() {
-                  widget.salvo = value;
+              }
+              break;
+            case 3:
+              {
+                widget.file = File(pickedFile.path);
+                widget.panoramica = widget.file;
+                fpt
+                    .enviarFtp(widget.panoramica,
+                        "${widget.diafoto}T${widget.Horafoto}-1-L.jpeg", ip)
+                    .then((value) {
+                  fpt
+                      .enviarFtp(
+                          widget.panoramica,
+                          "${widget.diafoto}T${widget.Horafoto}-1-L_Thumb.jpeg",
+                          ip)
+                      .then(
+                        (value) => fpt.enviarFtp(
+                            widget.panoramica,
+                            "${widget.diafoto}T${widget.Horafoto}-1-CI.jpeg",
+                            ip),
+                      );
+                  setState(() {
+                    widget.salvo = value;
+                  });
                 });
-              });
-            }
-            break;
-          case 4:
-            {
-              widget.file = File(pickedFile.path);
-              widget.placa = widget.file;
-              fpt.enviarFtp(
-                  widget.placa, "${widget.diafoto}T${widget.Horafoto}-1-P.jpeg",
-                  widget.ip).then((value) {
-                fpt.enviarFtp(widget.placa,
-                    "${widget.diafoto}T${widget.Horafoto}-1-P_Thumb.jpeg",
-                    widget.ip);
-                setState(() {
-                  widget.salvo = value;
+              }
+              break;
+            case 4:
+              {
+                widget.file = File(pickedFile.path);
+                widget.placa = widget.file;
+                fpt
+                    .enviarFtp(widget.placa,
+                        "${widget.diafoto}T${widget.Horafoto}-1-P.jpeg", ip)
+                    .then((value) {
+                  fpt.enviarFtp(
+                      widget.placa,
+                      "${widget.diafoto}T${widget.Horafoto}-1-P_Thumb.jpeg",
+                      ip);
+                  setState(() {
+                    widget.salvo = value;
+                  });
                 });
-              });
-            }
-            break;
-        }
+              }
+              break;
+          }
+        });
       },
     );
     return widget.file;

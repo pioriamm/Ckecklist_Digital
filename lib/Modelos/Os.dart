@@ -9,12 +9,12 @@ class Os {
   Os({this.os, this.data, this.hora, this.placa, this.status, this.csvnome});
 
   Os.fromJson(Map<String, dynamic> json) {
-    os = json['_os'];
-    data = json['_data'];
-    hora = json['_hora'];
-    placa = json['_placa'];
-    status = json['_status'];
-    csvnome = json['_csvnome'];
+    os = json['os'];
+    data = json['data'];
+    hora = json['hora'];
+    placa = json['placa'];
+    status = json['status'];
+    csvnome = json['csvnome'];
   }
 
   Map<String, dynamic> toJson() {
